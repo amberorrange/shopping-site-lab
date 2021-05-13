@@ -51,7 +51,7 @@ def show_melon(melon_id):
     """
 
     melon = melons.get_by_id(melon_id)
-    print(melon)
+
     return render_template("melon_details.html",
                            display_melon=melon)
 
@@ -59,6 +59,52 @@ def show_melon(melon_id):
 @app.route("/cart")
 def show_shopping_cart():
     """Display content of shopping cart."""
+
+    #what to do if nothing added to cart yet
+    #flash and redirect back to /melons
+    if not 'cart' in session:
+       
+        flash('No items in your cart!')   
+        return redirect("/melons")
+   
+    else:
+
+        #get the all of the melons inside the cart aka get the cart dictionary
+        melons_in_cart = session['cart']
+
+        #going to add each melon object to this list 
+        cart_list = []
+
+        #keep track of total cost for all melons
+        order_total = 0
+
+        #loop over cart dictionary and get both keys and values
+        for melon, count in melons_in_cart.items():
+            
+            #form melon object from get_by_id function
+            #the key that you're looping through is the argument in function 
+            carted_melon = melons.get_by_id(melon)
+
+            #new attribute quantity is the value from the cart dictionary that's being looped
+            carted_melon.quantity = count
+
+            #new attribute total_price 
+            carted_melon.total_price = carted_melon.quantity * carted_melon.price
+            
+            #total price for each type of melon- assigned to variable
+            total_price = carted_melon.total_price
+
+            #add each melon type's cost to the total checkout price
+            # want to pass order total to template 
+            order_total = order_total + total_price
+
+            #want to add the Melon object to empty list to pass to template
+            cart_list.append(carted_melon)
+        
+    
+        return render_template("cart.html",
+                            melon_dict=cart_list,
+                            cart_total=order_total)
 
     # TODO: Display the contents of the shopping cart.
 
@@ -78,7 +124,7 @@ def show_shopping_cart():
     # Make sure your function can also handle the case wherein no cart has
     # been added to the session
 
-    return render_template("cart.html")
+   
 
 
 @app.route("/add_to_cart/<melon_id>")
