@@ -135,8 +135,10 @@ def add_to_cart(melon_id):
     page and display a confirmation message: 'Melon successfully added to
     cart'."""
 
+    #tries to see if there's cart in session and if not, makes one  as empty dict
     session['cart'] = session.get('cart', {})
 
+    #adds 1 to the value of an existing melon_id or makes a melon_id and adds 1 to it 
     session['cart'][melon_id] = session['cart'].get(melon_id, 0) + 1
 
 
