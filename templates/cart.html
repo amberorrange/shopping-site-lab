@@ -13,28 +13,27 @@
         </tr>
         </thead>
         <body>
-        <!--check for edge case if empty list is passed-->
-        {% if melon_dict %}
+            <!--check if empty list is passed-->
+            {% if melon_dict %}
 
-            <!--for each melon object in the list of melon objects -->
-            {% for melon in  melon_dict  %}
-                
-            <tr>
-                <td>{{ melon.common_name }}</td>
-                <td>{{ melon.quantity }}</td>
-                <td>{{ melon.price }}</td>
-                <td>{{ melon.total_price }}</td>
-            </tr>
+                <!--for each melon object in the list of melon objects -->
+                {% for melon in  melon_dict  %}
+                    
+                    <tr>
+                        <td>{{ melon.common_name }}</td>
+                        <td>{{ melon.quantity }}</td>
+                        <td>{{ melon.price }}</td>
+                        <td>{{ melon.total_price }}</td>
+                    </tr>
 
-            {% endfor %}
+                {% endfor %}
+            {% endif %}
        
-       
-            </table>
-
-            <h3>Total: {{ cart_total }}</h3>
-
-        {% endif %}
-
+        </body>
+    </table>
+  
+    <br>
+    <h3>Total: {{ cart_total }}</h3>
     <a href="/checkout" class="btn btn-large btn-primary">Check Out</a>
 
 {% endblock %}
